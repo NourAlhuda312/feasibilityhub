@@ -1,0 +1,8 @@
+-- Optional demo seed notes.
+-- Auth users must be created through Supabase Auth first, so this file intentionally
+-- does not invent user UUIDs. After signup, use the application UI to create courses,
+-- invitations, groups, and ideas.
+--
+-- For UI-only review before Supabase setup, open:
+--   /preview/professor
+--   /preview/student
