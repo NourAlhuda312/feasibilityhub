@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { requireCourseRole } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { revalidateWorkspace } from "@/lib/revalidate-workspace";
 
 const text = (fd: FormData, key: string) => String(fd.get(key) || "").trim();
 
@@ -39,6 +40,7 @@ export async function submitIdea(formData: FormData) {
     const { error } = await admin.from("ideas").update({ status: "submitted", current_revision: revisionNumber }).eq("id", ideaId).in("status", ["draft", "submitted", "changes_requested"]);
     if (error) redirect(`/student/idea?course=${courseId}&error=${encodeURIComponent(error.message)}`);
   }
+  revalidateWorkspace();
   redirect(`/student/dashboard?course=${courseId}&message=Idea%20submitted%20for%20review`);
 }
 
@@ -53,7 +55,8 @@ export async function startReview(formData: FormData) {
     const { error } = await admin.from("ideas").update({ status: "in_review" }).eq("id", ideaId).eq("status", "submitted");
     if (error) redirect(`/professor/ideas?course=${courseId}&error=${encodeURIComponent(error.message)}`);
   }
-  redirect(`/professor/ideas/${ideaId}?course=${courseId}`);
+  revalidateWorkspace();
+  redirect(`/professor/ideas/${ideaId}?course=${courseId}&message=Review%20started`);
 }
 
 export async function reviewIdea(formData: FormData) {
@@ -95,5 +98,6 @@ if (revisionError || !revision) {
   if (updated.error) redirect(`/professor/ideas/${ideaId}?course=${courseId}&error=${encodeURIComponent(updated.error.message)}`);
   const review = await admin.from("idea_reviews").insert({ idea_id: ideaId, revision_id: revision.id, reviewer_id: user.id, decision, feedback: feedback || null });
   if (review.error) redirect(`/professor/ideas/${ideaId}?course=${courseId}&error=${encodeURIComponent(review.error.message)}`);
-  redirect(`/professor/dashboard?course=${courseId}&message=Review%20saved`);
+  revalidateWorkspace();
+  redirect(`/professor/dashboard?course=${courseId}&message=${decision === "approve" ? "Idea%20approved" : "Changes%20requested"}`);
 }

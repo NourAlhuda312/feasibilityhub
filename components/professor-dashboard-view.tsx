@@ -1,3 +1,4 @@
+import { ActionForm } from "@/components/action-form";
 import Link from "next/link";
 import { AppShell } from "@/components/app-shell";
 import { StatusBadge } from "@/components/status-badge";
@@ -104,7 +105,7 @@ export function ProfessorDashboardView({
                         {!row.ideaId ? <span className="text-xs font-bold text-stone-400">No submission</span> : preview ? (
                           <Link href={`/preview/professor/review/${row.ideaId}`} className="inline-flex rounded-xl bg-[#173f2c] px-3 py-2 text-xs font-black text-white">{row.status === "submitted" ? "Start review" : "Open"}</Link>
                         ) : row.status === "submitted" ? (
-                          <form action={startReview} className="inline-block"><input type="hidden" name="course_id" value={courseId}/><input type="hidden" name="idea_id" value={row.ideaId}/><button className="rounded-xl bg-[#173f2c] px-3 py-2 text-xs font-black text-white">Start review</button></form>
+                          <ActionForm action={startReview} className="inline-block"><input type="hidden" name="course_id" value={courseId}/><input type="hidden" name="idea_id" value={row.ideaId}/><button className="rounded-xl bg-[#173f2c] px-3 py-2 text-xs font-black text-white">Start review</button></ActionForm>
                         ) : (
                           <Link href={`/professor/ideas/${row.ideaId}?course=${courseId}`} className="inline-flex rounded-xl border border-emerald-950/10 bg-white px-3 py-2 text-xs font-black text-[#173f2c]">Open</Link>
                         )}

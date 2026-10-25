@@ -1,3 +1,4 @@
+import { ActionForm } from "@/components/action-form";
 import Link from "next/link";
 import { Brand } from "@/components/brand";
 import { cn } from "@/lib/utils";
@@ -49,9 +50,9 @@ export function AppShell({
         <div className="mt-auto rounded-3xl border border-emerald-950/10 bg-white p-4">
           <div className="text-xs font-black text-[#173f2c]">{userLabel}</div>
           <div className="mt-1 text-[11px] font-bold text-stone-500">{roleLabel}</div>
-          <form action={signOut} className="mt-3">
+          <ActionForm action={signOut} className="mt-3">
             <button className="w-full rounded-2xl border border-emerald-950/10 bg-[#f6f7f2] px-3 py-2 text-xs font-black text-stone-700 transition hover:bg-stone-100">Log out</button>
-          </form>
+          </ActionForm>
         </div>
       </aside>
       <main className="min-w-0">
@@ -62,18 +63,18 @@ export function AppShell({
               <div className="text-xs font-black">{courseCode}</div>
               <div className="text-[10px] text-stone-500">{roleLabel}</div>
             </div>
-            <form action={signOut}>
+            <ActionForm action={signOut}>
               <button aria-label="Log out" title="Log out" className="rounded-xl border border-emerald-950/10 bg-white px-3 py-2 text-[11px] font-black text-stone-700">Log out</button>
-            </form>
+            </ActionForm>
           </div>
           <div className="hidden items-center gap-3 lg:flex">
             <div className="text-right">
               <div className="text-xs font-black">{userLabel}</div>
               <div className="text-[10px] text-stone-500">{roleLabel}</div>
             </div>
-            <form action={signOut}>
+            <ActionForm action={signOut}>
               <button aria-label="Log out" title="Log out" className="rounded-xl border border-emerald-950/10 bg-white px-3 py-2 text-xs font-black text-stone-700 transition hover:bg-stone-100">Log out</button>
-            </form>
+            </ActionForm>
           </div>
         </header>
         {children}

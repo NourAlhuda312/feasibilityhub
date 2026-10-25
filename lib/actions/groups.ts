@@ -2,7 +2,7 @@
 
 import { randomBytes, createHash } from "node:crypto";
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
+import { revalidateWorkspace } from "@/lib/revalidate-workspace";
 import { requireCourseRole, requireUser } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getSiteUrl } from "@/lib/utils";
@@ -29,6 +29,7 @@ export async function createGroup(formData: FormData) {
     await admin.from("groups").delete().eq("id", created.data.id);
     redirect(`/student/group?course=${courseId}&error=${encodeURIComponent(member.error.message)}`);
   }
+  revalidateWorkspace();
   redirect(`/student/group?course=${courseId}&message=Group%20created.%20You%20are%20the%20leader%20for%20now.`);
 }
 
@@ -66,7 +67,7 @@ export async function addGroupMemberByEmail(formData: FormData) {
   if (existing) redirect(`/student/group?course=${courseId}&error=${encodeURIComponent("That student already belongs to a group in this course.")}`);
   const { error } = await admin.from("group_members").insert({ group_id: group.id, course_id: courseId, user_id: profile.id });
   if (error) redirect(`/student/group?course=${courseId}&error=${encodeURIComponent(error.message)}`);
-  revalidatePath("/student/group");
+  revalidateWorkspace();
   redirect(`/student/group?course=${courseId}&message=Student%20added%20to%20the%20group.`);
 }
 
@@ -82,7 +83,7 @@ export async function transferGroupLeadership(formData: FormData) {
   if (!member) redirect(`/student/group?course=${courseId}&error=The%20new%20leader%20must%20already%20be%20a%20member%20of%20this%20group.`);
   const { error } = await admin.from("groups").update({ leader_id: newLeaderId }).eq("id", group.id).eq("leader_id", user.id);
   if (error) redirect(`/student/group?course=${courseId}&error=${encodeURIComponent(error.message)}`);
-  revalidatePath("/student/group");
+  revalidateWorkspace();
   redirect(`/student/group?course=${courseId}&message=Leadership%20transferred.`);
 }
 
@@ -96,7 +97,7 @@ export async function removeGroupMember(formData: FormData) {
   if (memberId === user.id) redirect(`/student/group?course=${courseId}&error=Transfer%20leadership%20before%20leaving%20the%20group.`);
   const { error } = await admin.from("group_members").delete().eq("group_id", group.id).eq("user_id", memberId);
   if (error) redirect(`/student/group?course=${courseId}&error=${encodeURIComponent(error.message)}`);
-  revalidatePath("/student/group");
+  revalidateWorkspace();
   redirect(`/student/group?course=${courseId}&message=Member%20removed.`);
 }
 
@@ -119,5 +120,6 @@ export async function joinGroup(token: string) {
     const { error } = await admin.from("group_members").insert({ group_id: invite.group_id, course_id: courseId, user_id: user.id });
     if (error) redirect(`/student/dashboard?course=${courseId}&error=${encodeURIComponent(error.message)}`);
   }
-  redirect(`/student/dashboard?course=${courseId}`);
+  revalidateWorkspace();
+  redirect(`/student/dashboard?course=${courseId}&message=Joined%20the%20group`);
 }

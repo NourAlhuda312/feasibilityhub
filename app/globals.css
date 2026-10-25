@@ -29,7 +29,7 @@ a { color: inherit; text-decoration: none; }
    - White action buttons always use the brand green text.
    - Dark-green action buttons always use white text.
    - Destructive white buttons can opt out with .danger-button. */
-button.bg-white:not(.danger-button),
+button.bg-white,
 a.bg-white {
   color: var(--leaf-dark) !important;
 }
@@ -59,3 +59,8 @@ a[class*="bg-[#173f2c]"],
   color: var(--leaf-dark);
   border: 1px solid var(--line);
 }
+
+.pending-fields { display: contents; }
+button:disabled { cursor: wait; opacity: .6; }
+button:focus-visible, a:focus-visible { outline: 3px solid var(--leaf); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

@@ -1,3 +1,4 @@
+import { ActionForm } from "@/components/action-form";
 import Link from "next/link";
 import { requireCourseRole } from "@/lib/auth";
 import { submitIdea } from "@/lib/actions/ideas";
@@ -57,7 +58,7 @@ export default async function StudentIdeaPage({ searchParams }: { searchParams: 
         )}
 
         {editable && (
-          <form action={submitIdea} className="surface mt-7 rounded-[32px] p-7">
+          <ActionForm action={submitIdea} className="surface mt-7 rounded-[32px] p-7">
             <input type="hidden" name="course_id" value={courseId}/>
             {status === "changes_requested" && workspace.feedback && <div className="mb-6 rounded-2xl bg-amber-50 p-4 text-sm leading-6 text-amber-900"><strong>Professor feedback:</strong> {workspace.feedback}</div>}
             <label className="block text-sm font-black">Name of the idea
@@ -68,7 +69,7 @@ export default async function StudentIdeaPage({ searchParams }: { searchParams: 
             </label>
             <div className="mt-5 rounded-2xl bg-[#f1f2e8] p-4 text-xs leading-5 text-stone-600">Each submission creates a new revision. Once a professor starts reviewing, this form locks until they request changes.</div>
             <button className="primary-button mt-5 rounded-2xl px-6 py-3 text-sm font-black">{status === "changes_requested" ? "Submit revised idea" : "Submit for review"}</button>
-          </form>
+          </ActionForm>
         )}
       </div>
     </main>

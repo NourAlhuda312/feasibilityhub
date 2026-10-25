@@ -1,3 +1,4 @@
+import { ActionForm } from "@/components/action-form";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { StatusBadge } from "@/components/status-badge";
@@ -32,21 +33,21 @@ export default async function IdeaReviewPage({ params, searchParams }: { params:
         </div>
         <aside className="space-y-5">
           {idea.status === "submitted" ? (
-            <form action={startReview} className="rounded-[32px] bg-[#173f2c] p-6 text-white">
+            <ActionForm action={startReview} className="rounded-[32px] bg-[#173f2c] p-6 text-white">
               <input type="hidden" name="course_id" value={courseId}/><input type="hidden" name="idea_id" value={id}/>
               <div className="text-xs font-black uppercase tracking-[.15em] text-emerald-200">Before deciding</div>
               <div className="mt-3 text-xl font-black">Start the review</div>
               <p className="mt-2 text-sm leading-6 text-emerald-50/75">This locks student editing for the current revision and marks it In review.</p>
               <button className="mt-5 w-full rounded-2xl bg-white px-3 py-3 text-sm font-black text-[#173f2c]">Start review</button>
-            </form>
+            </ActionForm>
           ) : canDecide ? (
-            <form action={reviewIdea} className="rounded-[32px] bg-[#173f2c] p-6 text-white">
+            <ActionForm action={reviewIdea} className="rounded-[32px] bg-[#173f2c] p-6 text-white">
               <input type="hidden" name="course_id" value={courseId}/><input type="hidden" name="idea_id" value={id}/>
               <div className="text-xs font-black uppercase tracking-[.15em] text-emerald-200">Decision</div>
               {error && <div className="mt-4 rounded-2xl bg-rose-100 px-3 py-2 text-xs font-bold text-rose-900">{error}</div>}
               <textarea name="feedback" rows={5} placeholder="Feedback for the team..." className="mt-5 w-full rounded-2xl border border-white/20 bg-white p-4 text-sm text-[#17211b] outline-none placeholder:text-stone-400"/>
               <div className="mt-3 grid grid-cols-2 gap-2"><button name="decision" value="request_changes" className="rounded-2xl border border-white/25 px-3 py-3 text-sm font-black text-white">Request changes</button><button name="decision" value="approve" className="rounded-2xl bg-white px-3 py-3 text-sm font-black text-[#173f2c]">Approve</button></div>
-            </form>
+            </ActionForm>
           ) : (
             <div className="surface rounded-[32px] p-6"><div className="text-sm font-black">Review complete</div><p className="mt-2 text-sm leading-6 text-stone-500">This revision is currently {idea.status === "approved" ? "approved" : "waiting for the student team to submit changes"}.</p></div>
           )}

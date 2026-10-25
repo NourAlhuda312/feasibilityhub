@@ -1,3 +1,4 @@
+import { ActionForm } from "@/components/action-form";
 import Link from "next/link";
 import { StatusBadge } from "@/components/status-badge";
 import { requireCourseRole } from "@/lib/auth";
@@ -25,7 +26,7 @@ export default async function IdeasPage({ searchParams }: { searchParams: Promis
             <StatusBadge status={row.status}/>
             <div className="sm:text-right">
               {row.status === "submitted" ? (
-                <form action={startReview}><input type="hidden" name="course_id" value={courseId}/><input type="hidden" name="idea_id" value={row.ideaId}/><button className="primary-button rounded-xl px-4 py-2 text-xs font-black">Start review</button></form>
+                <ActionForm action={startReview}><input type="hidden" name="course_id" value={courseId}/><input type="hidden" name="idea_id" value={row.ideaId}/><button className="primary-button rounded-xl px-4 py-2 text-xs font-black">Start review</button></ActionForm>
               ) : (
                 <Link href={`/professor/ideas/${row.ideaId}?course=${courseId}`} className="inline-flex rounded-xl border border-emerald-950/10 bg-white px-4 py-2 text-xs font-black">Open</Link>
               )}

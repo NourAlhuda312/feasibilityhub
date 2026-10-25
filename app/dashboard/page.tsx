@@ -1,3 +1,4 @@
+import { ActionForm } from "@/components/action-form";
 import Link from "next/link";
 import { Brand } from "@/components/brand";
 import { requireUser, isPlatformAdminEmail } from "@/lib/auth";
@@ -22,9 +23,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           <Brand href="/dashboard" />
           <div className="flex items-center gap-3">
             <div className="text-right text-xs text-stone-500">Signed in as<br/><strong className="text-stone-800">{user.email}</strong></div>
-            <form action={signOut}>
+            <ActionForm action={signOut}>
               <button className="rounded-2xl border border-emerald-950/10 bg-white px-4 py-2.5 text-xs font-black text-stone-700 transition hover:bg-stone-100">Log out</button>
-            </form>
+            </ActionForm>
           </div>
         </div>
 
@@ -63,10 +64,10 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
             <div className="text-xs font-black uppercase tracking-[.16em] text-[#1f7a52]">Students</div>
             <h2 className="mt-3 text-2xl font-black">Join by course code</h2>
             <p className="mt-2 text-sm leading-6 text-stone-500">Ask your professor for the course code. After joining, you can create or join one group inside that course.</p>
-            <form action={joinCourseByCode} className="mt-5 flex flex-col gap-3 sm:flex-row">
+            <ActionForm action={joinCourseByCode} className="mt-5 flex flex-col gap-3 sm:flex-row">
               <input required name="join_code" placeholder="e.g. BFS30-A1B2C3" className="focus-ring min-w-0 flex-1 rounded-2xl border border-emerald-950/15 bg-white px-4 py-3 text-sm font-bold uppercase outline-none" />
               <button className="primary-button rounded-2xl px-5 py-3 text-sm font-black">Join course</button>
-            </form>
+            </ActionForm>
           </div>
 
           {canCreate ? (
@@ -74,13 +75,13 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
               <div className="text-xs font-black uppercase tracking-[.16em] text-emerald-200">Faculty</div>
               <h2 className="mt-3 text-2xl font-black">Create a new course</h2>
               <p className="mt-2 text-sm leading-6 text-emerald-50/75">Create one workspace per academic semester. You become Professor for that course and receive a unique student join code.</p>
-              <form action={createCourse} className="mt-6 grid gap-3 sm:grid-cols-2">
+              <ActionForm action={createCourse} className="mt-6 grid gap-3 sm:grid-cols-2">
                 <input required name="code" placeholder="Course code" className="rounded-2xl border border-white/20 bg-white px-4 py-3 text-sm font-bold text-[#17211b] outline-none" />
                 <input required name="title" placeholder="Course title" className="rounded-2xl border border-white/20 bg-white px-4 py-3 text-sm font-bold text-[#17211b] outline-none" />
                 <select name="term" className="rounded-2xl border border-white/20 bg-white px-4 py-3 text-sm font-bold text-[#17211b]"><option>Fall</option><option>Spring</option><option>Summer</option></select>
                 <input required name="year" type="number" min="2020" max="2100" defaultValue="2026" className="rounded-2xl border border-white/20 bg-white px-4 py-3 text-sm font-bold text-[#17211b] outline-none"/>
                 <button className="sm:col-span-2 rounded-2xl bg-white px-4 py-3 text-sm font-black text-[#173f2c]">Create course</button>
-              </form>
+              </ActionForm>
             </div>
           ) : (
             <div className="surface rounded-[32px] p-7">

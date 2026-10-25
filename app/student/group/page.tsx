@@ -1,3 +1,5 @@
+import { ActionForm } from "@/components/action-form";
+import { CopyButton } from "@/components/copy-button";
 import Link from "next/link";
 import { requireCourseRole } from "@/lib/auth";
 import { addGroupMemberByEmail, createGroup, createGroupInvite, removeGroupMember, transferGroupLeadership } from "@/lib/actions/groups";
@@ -32,10 +34,10 @@ export default async function StudentGroupPage({ searchParams }: { searchParams:
             <div className="text-xs font-black uppercase tracking-[.15em] text-emerald-200">Step 1</div>
             <h2 className="mt-3 text-3xl font-black">Create your project group.</h2>
             <p className="mt-3 max-w-xl text-sm leading-6 text-emerald-50/75">The creator becomes the first leader. After creation, you can add up to two classmates or share a private group invitation.</p>
-            <form action={createGroup} className="mt-6">
+            <ActionForm action={createGroup} className="mt-6">
               <input type="hidden" name="course_id" value={courseId}/>
               <button className="rounded-2xl bg-white px-5 py-3 text-sm font-black text-[#173f2c]">Create my group</button>
-            </form>
+            </ActionForm>
           </section>
         ) : (
           <>
@@ -59,14 +61,14 @@ export default async function StudentGroupPage({ searchParams }: { searchParams:
                       {member.isLeader && <span className="rounded-full bg-emerald-100 px-3 py-1 text-[10px] font-black uppercase tracking-[.12em] text-emerald-900">Leader</span>}
                       {isLeader && !member.isLeader && (
                         <>
-                          <form action={transferGroupLeadership}>
+                          <ActionForm action={transferGroupLeadership}>
                             <input type="hidden" name="course_id" value={courseId}/><input type="hidden" name="new_leader_id" value={member.userId}/>
                             <button className="rounded-xl border border-emerald-950/10 bg-white px-3 py-2 text-xs font-black">Make leader</button>
-                          </form>
-                          <form action={removeGroupMember}>
+                          </ActionForm>
+                          <ActionForm action={removeGroupMember}>
                             <input type="hidden" name="course_id" value={courseId}/><input type="hidden" name="member_id" value={member.userId}/>
                             <button className="rounded-xl danger-button border border-rose-200 bg-white px-3 py-2 text-xs font-black text-rose-700">Remove</button>
-                          </form>
+                          </ActionForm>
                         </>
                       )}
                     </div>
@@ -83,23 +85,23 @@ export default async function StudentGroupPage({ searchParams }: { searchParams:
                   <div className="text-xs font-black uppercase tracking-[.14em] text-[#1f7a52]">Fast option</div>
                   <div className="mt-2 text-xl font-black">Add an enrolled classmate</div>
                   <p className="mt-2 text-sm leading-6 text-stone-500">If your classmate already created an account and joined this course, add their exact email directly.</p>
-                  <form action={addGroupMemberByEmail} className="mt-5 space-y-3">
+                  <ActionForm action={addGroupMemberByEmail} className="mt-5 space-y-3">
                     <input type="hidden" name="course_id" value={courseId}/>
                     <input required type="email" name="email" placeholder="classmate@example.edu" className="focus-ring w-full rounded-2xl border border-emerald-950/15 bg-white px-4 py-3 text-sm outline-none" />
                     <button className="primary-button w-full rounded-2xl px-5 py-3 text-sm font-black">Add classmate</button>
-                  </form>
+                  </ActionForm>
                 </div>
 
                 <div className="surface rounded-[30px] p-6">
                   <div className="text-xs font-black uppercase tracking-[.14em] text-[#1f7a52]">Share option</div>
                   <div className="mt-2 text-xl font-black">Create a private invite link</div>
                   <p className="mt-2 text-sm leading-6 text-stone-500">Generate a general link, or optionally bind it to one email. The student must be enrolled in the course before joining the group.</p>
-                  {invite && <div className="mt-4 rounded-2xl bg-emerald-50 p-4"><div className="text-xs font-black text-emerald-900">{inviteFor ? `Invite for ${inviteFor}` : "Share this invite"}</div><div className="mt-2 break-all text-xs font-bold text-emerald-900">{invite}</div></div>}
-                  <form action={createGroupInvite} className="mt-5 space-y-3">
+                  {invite && <div className="mt-4 rounded-2xl bg-emerald-50 p-4"><div className="text-xs font-black text-emerald-900">{inviteFor ? `Invite for ${inviteFor}` : "Share this invite"}</div><div className="mt-2 break-all text-xs font-bold text-emerald-900">{invite}</div><CopyButton value={invite} /></div>}
+                  <ActionForm action={createGroupInvite} className="mt-5 space-y-3">
                     <input type="hidden" name="course_id" value={courseId}/>
                     <input type="email" name="invited_email" placeholder="Optional: restrict to one email" className="focus-ring w-full rounded-2xl border border-emerald-950/15 bg-white px-4 py-3 text-sm outline-none" />
                     <button className="primary-button w-full rounded-2xl px-5 py-3 text-sm font-black">Generate invite link</button>
-                  </form>
+                  </ActionForm>
                 </div>
               </section>
             )}

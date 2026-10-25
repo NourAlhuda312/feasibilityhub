@@ -1,3 +1,4 @@
+import { ActionForm } from "@/components/action-form";
 import Link from "next/link";
 import { Brand } from "@/components/brand";
 import { signIn } from "@/lib/actions/auth";
@@ -22,12 +23,12 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
             <p className="mt-2 text-sm text-stone-500">Use the email connected to your course.</p>
             {error && <div className="mt-5 rounded-2xl bg-rose-50 px-4 py-3 text-sm font-bold text-rose-800">{error}</div>}
             {message && <div className="mt-5 rounded-2xl bg-emerald-50 px-4 py-3 text-sm font-bold text-emerald-800">{message}</div>}
-            <form action={signIn} className="mt-7 space-y-4">
+            <ActionForm action={signIn} className="mt-7 space-y-4">
               <input type="hidden" name="next" value={next} />
               <label className="block text-sm font-bold">Email<input required type="email" name="email" className="focus-ring mt-2 w-full rounded-2xl border border-emerald-950/15 bg-stone-50 px-4 py-3 outline-none" placeholder="you@example.edu" /></label>
               <label className="block text-sm font-bold">Password<input required type="password" name="password" className="focus-ring mt-2 w-full rounded-2xl border border-emerald-950/15 bg-stone-50 px-4 py-3 outline-none" placeholder="••••••••" /></label>
               <button className="w-full rounded-2xl bg-[#173f2c] px-4 py-3 font-black text-white">Sign in</button>
-            </form>
+            </ActionForm>
             <p className="mt-6 text-sm text-stone-500">New here? <Link className="font-black text-[#1f7a52]" href="/register">Create an account</Link></p>
           </section>
         </div>

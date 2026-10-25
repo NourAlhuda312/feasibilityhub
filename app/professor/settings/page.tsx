@@ -1,3 +1,4 @@
+import { ActionForm } from "@/components/action-form";
 import Link from "next/link";
 import { requireCourseRole } from "@/lib/auth";
 import { createCourseInvite } from "@/lib/actions/courses";
@@ -29,7 +30,7 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
         <div className="text-xl font-black">Shareable course invitation</div>
         <p className="mt-2 text-sm leading-6 text-stone-500">Use a direct link when that is easier than typing the course code. Staff roles are assigned separately.</p>
         {invite && <div className="mt-5 break-all rounded-2xl bg-emerald-50 p-4 text-sm font-bold text-emerald-900">{invite}</div>}
-        {canManage && <form action={createCourseInvite} className="mt-5"><input type="hidden" name="course_id" value={courseId}/><button className="primary-button rounded-2xl px-5 py-3 text-sm font-black">Generate new invite link</button></form>}
+        {canManage && <ActionForm action={createCourseInvite} className="mt-5"><input type="hidden" name="course_id" value={courseId}/><button className="primary-button rounded-2xl px-5 py-3 text-sm font-black">Generate new invite link</button></ActionForm>}
       </section>
 
       <section className="mt-5 rounded-[30px] border border-emerald-950/10 bg-white p-6">

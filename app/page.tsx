@@ -1,3 +1,4 @@
+import { ActionForm } from "@/components/action-form";
 import Link from "next/link";
 import { Brand } from "@/components/brand";
 import { createClient } from "@/lib/supabase/server";
@@ -37,9 +38,9 @@ export default async function HomePage() {
           {user ? (
             <div className="flex items-center gap-2">
               <Link href="/dashboard" className="primary-button rounded-2xl px-4 py-2.5 text-sm font-black">Open dashboard</Link>
-              <form action={signOut}>
+              <ActionForm action={signOut}>
                 <button className="rounded-2xl border border-emerald-950/10 bg-white px-4 py-2.5 text-sm font-black text-stone-700 transition hover:bg-stone-100">Log out</button>
-              </form>
+              </ActionForm>
             </div>
           ) : (
             <div className="flex items-center gap-2">
